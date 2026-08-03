@@ -1,0 +1,32 @@
+{
+  "name": "eleventy-plugin-redirects",
+  "version": "0.1.0",
+  "description": "Eleventy plugin that generates Netlify _redirects, Apache .htaccess, and static HTML fallback pages from a single redirects config.",
+  "main": "lib/redirects.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "eleventy",
+    "eleventy-plugin",
+    "11ty",
+    "redirects",
+    "netlify",
+    "htaccess",
+    "seo"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@11ty/eleventy": "^2.0.0 || ^3.0.0"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "lib"
+  ]
+}
