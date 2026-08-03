@@ -72,6 +72,25 @@ test("writes .htaccess only when apache is enabled", async () => {
   assert.equal(contents, "Redirect 301 /old/ /new/\n");
 });
 
+test("prepends generated Redirect lines ahead of an existing .htaccess file", async () => {
+  const outputDir = path.join(tmpDir(), "_site");
+  fs.mkdirSync(outputDir, { recursive: true });
+  fs.writeFileSync(path.join(outputDir, ".htaccess"), "ErrorDocument 404 /404.html\n");
+
+  const eleventyConfig = fakeEleventyConfig();
+  redirectsPlugin(eleventyConfig, {
+    redirects: { "/old/": "/new/" },
+    netlify: false,
+    apache: true,
+    log: false,
+  });
+
+  await eleventyConfig.fireAfter({ dir: { output: outputDir } });
+
+  const contents = fs.readFileSync(path.join(outputDir, ".htaccess"), "utf8");
+  assert.equal(contents, "Redirect 301 /old/ /new/\nErrorDocument 404 /404.html\n");
+});
+
 test("writes HTML fallback pages at the old URL when html is enabled", async () => {
   const outputDir = path.join(tmpDir(), "_site");
   const eleventyConfig = fakeEleventyConfig();
