@@ -1,5 +1,7 @@
 # eleventy-plugin-redirects
 
+[![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/flyewiy)
+
 Eleventy plugin that turns a single, centrally maintained redirects config into the formats your host actually understands: a Netlify `_redirects` file, an Apache `.htaccess`, and/or static HTML fallback pages for hosts that support neither.
 
 ## Why
