@@ -40,6 +40,8 @@ By default this writes an `_redirects` file into your output directory after eve
 | `apache` | `false` | Write an Apache `.htaccess` with `Redirect` directives. |
 | `apacheFile` | `".htaccess"` | Filename for the Apache output. |
 | `html` | `false` | Also write a static HTML fallback page at each `from` URL (meta-refresh + `rel=canonical`), for hosts (e.g. GitHub Pages) that can't act on `_redirects`/`.htaccess`. |
+| `htmlLang` | `"en"` | `lang` attribute of the HTML fallback pages. |
+| `htmlMessage` | `"This page has moved to"` | Text shown (followed by the link) on the HTML fallback pages, for the moment before the redirect or when it doesn't fire. |
 | `log` | `true` | Log a one-line summary after each build. |
 
 ## Netlify output
@@ -65,7 +67,10 @@ With `html: true`, each `from` path also gets a real HTML file at that URL (e.g.
 ```html
 <meta http-equiv="refresh" content="0; url=/new-path/">
 <link rel="canonical" href="/new-path/">
+<script>location.replace("/new-path/" + location.hash);</script>
 ```
+
+The script redirects immediately and keeps the URL fragment (`/old-path/#section` → `/new-path/#section`), like a server-side redirect would; the meta refresh is the fallback when JavaScript is off. If the target already contains a `#fragment`, that one is kept instead.
 
 This is a static fallback for platforms without server-side redirect support — a real `_redirects`/`.htaccess` (or your host/CDN's redirect rules) is always the better option when available, since the HTML approach is a moment slower and depends on the browser executing the refresh.
 

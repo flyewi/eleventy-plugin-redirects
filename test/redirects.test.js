@@ -108,6 +108,26 @@ test("writes HTML fallback pages at the old URL when html is enabled", async () 
   assert.match(contents, /url=\/new-path\//);
 });
 
+test("passes htmlLang and htmlMessage through to the fallback pages", async () => {
+  const outputDir = path.join(tmpDir(), "_site");
+  const eleventyConfig = fakeEleventyConfig();
+
+  redirectsPlugin(eleventyConfig, {
+    redirects: { "/old-path/": "/new-path/" },
+    netlify: false,
+    html: true,
+    htmlLang: "de",
+    htmlMessage: "Weiter zu",
+    log: false,
+  });
+
+  await eleventyConfig.fireAfter({ dir: { output: outputDir } });
+
+  const contents = fs.readFileSync(path.join(outputDir, "old-path/index.html"), "utf8");
+  assert.match(contents, /<html lang="de">/);
+  assert.match(contents, /<p>Weiter zu <a/);
+});
+
 test("does nothing when there are no redirects configured", async () => {
   const outputDir = path.join(tmpDir(), "_site");
   const eleventyConfig = fakeEleventyConfig();

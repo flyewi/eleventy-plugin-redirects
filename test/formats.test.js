@@ -25,6 +25,28 @@ test("toHtmlPage escapes the target and includes a meta refresh + canonical", ()
   assert.match(html, /<link rel="canonical" href="\/new\?a=1&amp;b=2">/);
 });
 
+test("toHtmlPage carries the URL fragment over via location.replace", () => {
+  const html = toHtmlPage("/new/");
+  assert.match(html, /<script>location\.replace\("\/new\/" \+ location\.hash\);<\/script>/);
+});
+
+test("toHtmlPage keeps a target's own fragment instead of appending location.hash", () => {
+  const html = toHtmlPage("/new/#intro");
+  assert.match(html, /location\.replace\("\/new\/#intro"\);/);
+});
+
+test("toHtmlPage cannot break out of the inline script", () => {
+  const html = toHtmlPage("/x</script><script>alert(1)</script>");
+  assert.equal(html.match(/<\/script>/g).length, 1);
+});
+
+test("toHtmlPage defaults to English and accepts lang and message", () => {
+  assert.match(toHtmlPage("/new/"), /<html lang="en">/);
+  const html = toHtmlPage("/new/", { lang: "de", message: "Diese Seite ist umgezogen nach" });
+  assert.match(html, /<html lang="de">/);
+  assert.match(html, /<p>Diese Seite ist umgezogen nach <a href="\/new\/">/);
+});
+
 test("toOutputPath maps trailing-slash and extensionless paths to index.html", () => {
   assert.equal(toOutputPath("/old-path/"), "old-path/index.html");
   assert.equal(toOutputPath("/old-path"), "old-path/index.html");
