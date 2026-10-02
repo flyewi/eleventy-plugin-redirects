@@ -69,10 +69,10 @@ test("writes .htaccess only when apache is enabled", async () => {
 
   assert.equal(fs.existsSync(path.join(outputDir, "_redirects")), false);
   const contents = fs.readFileSync(path.join(outputDir, ".htaccess"), "utf8");
-  assert.equal(contents, "Redirect 301 /old/ /new/\n");
+  assert.equal(contents, "RedirectMatch 301 ^/old/$ /new/\n");
 });
 
-test("prepends generated Redirect lines ahead of an existing .htaccess file", async () => {
+test("prepends generated RedirectMatch lines ahead of an existing .htaccess file", async () => {
   const outputDir = path.join(tmpDir(), "_site");
   fs.mkdirSync(outputDir, { recursive: true });
   fs.writeFileSync(path.join(outputDir, ".htaccess"), "ErrorDocument 404 /404.html\n");
@@ -88,7 +88,7 @@ test("prepends generated Redirect lines ahead of an existing .htaccess file", as
   await eleventyConfig.fireAfter({ dir: { output: outputDir } });
 
   const contents = fs.readFileSync(path.join(outputDir, ".htaccess"), "utf8");
-  assert.equal(contents, "Redirect 301 /old/ /new/\nErrorDocument 404 /404.html\n");
+  assert.equal(contents, "RedirectMatch 301 ^/old/$ /new/\nErrorDocument 404 /404.html\n");
 });
 
 test("writes HTML fallback pages at the old URL when html is enabled", async () => {

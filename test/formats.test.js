@@ -12,10 +12,28 @@ test("toNetlify renders one rule per line", () => {
   assert.equal(toNetlify(list), "/old-a/  /new-a/  301\n/old-b/  /new-b/  302\n");
 });
 
-test("toApache renders Redirect directives", () => {
+test("toApache renders anchored RedirectMatch directives (exact match)", () => {
   assert.equal(
     toApache(list),
-    "Redirect 301 /old-a/ /new-a/\nRedirect 302 /old-b/ /new-b/\n"
+    "RedirectMatch 301 ^/old-a/$ /new-a/\nRedirectMatch 302 ^/old-b/$ /new-b/\n"
+  );
+});
+
+test("toApache escapes regex metacharacters in the source path", () => {
+  assert.equal(
+    toApache([{ from: "/old.html", to: "/new/", status: 301 }]),
+    "RedirectMatch 301 ^/old\\.html$ /new/\n"
+  );
+  assert.equal(
+    toApache([{ from: "/a+b(1)", to: "/c/", status: 301 }]),
+    "RedirectMatch 301 ^/a\\+b\\(1\\)$ /c/\n"
+  );
+});
+
+test("toApache quotes arguments that contain whitespace", () => {
+  assert.equal(
+    toApache([{ from: "/old page/", to: "/new page/", status: 301 }]),
+    'RedirectMatch 301 "^/old page/$" "/new page/"\n'
   );
 });
 

@@ -37,7 +37,7 @@ By default this writes an `_redirects` file into your output directory after eve
 | `defaultStatus` | `301` | Status code used when an entry doesn't specify one. |
 | `netlify` | `true` | Write a Netlify `_redirects` file. |
 | `netlifyFile` | `"_redirects"` | Filename for the Netlify output, relative to the output directory. |
-| `apache` | `false` | Write an Apache `.htaccess` with `Redirect` directives. |
+| `apache` | `false` | Write an Apache `.htaccess` with exact-match `RedirectMatch` directives. |
 | `apacheFile` | `".htaccess"` | Filename for the Apache output. |
 | `html` | `false` | Also write a static HTML fallback page at each `from` URL (meta-refresh + `rel=canonical`), for hosts (e.g. GitHub Pages) that can't act on `_redirects`/`.htaccess`. |
 | `htmlLang` | `"en"` | `lang` attribute of the HTML fallback pages. |
@@ -56,9 +56,15 @@ If your output directory already contains an `_redirects` file (e.g. copied thro
 ## Apache output
 
 ```
-Redirect 301 /old-path/ /new-path/
-Redirect 302 /legacy-page/ /new-page/
+RedirectMatch 301 ^/old-path/$ /new-path/
+RedirectMatch 302 ^/legacy-page/$ /new-page/
 ```
+
+Each rule matches its path **exactly**, the same as in Netlify's `_redirects`: `/old-path/` redirects, `/old-path/sub/` does not. Regex characters in the path (e.g. the `.` in `/old.html`) are escaped, and paths containing spaces are quoted. The query string is passed on to the target unchanged.
+
+> **Changed in 0.3.0:** earlier versions wrote `Redirect` directives, which Apache treats as a *prefix* match (`/old-path/` also redirected `/old-path/anything` to `/new-path/anything`). If you relied on that, add the deeper paths as separate entries.
+
+Requires `mod_alias`, which is enabled on practically every Apache host, and `.htaccess` overrides (`AllowOverride FileInfo`) — on shared hosting this is usually the case.
 
 ## HTML fallback pages
 
