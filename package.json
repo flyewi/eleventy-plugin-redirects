@@ -1,6 +1,6 @@
 {
   "name": "@flyewi/eleventy-plugin-redirects",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Eleventy plugin that generates Netlify _redirects, Apache .htaccess, and static HTML fallback pages from a single redirects config.",
   "main": "lib/redirects.js",
   "type": "commonjs",
