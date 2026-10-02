@@ -80,6 +80,10 @@ The script redirects immediately and keeps the URL fragment (`/old-path/#section
 
 This is a static fallback for platforms without server-side redirect support — a real `_redirects`/`.htaccess` (or your host/CDN's redirect rules) is always the better option when available, since the HTML approach is a moment slower and depends on the browser executing the refresh.
 
+## Contributing
+
+Issues and pull requests are welcome. For how releases are published, see [RELEASING.md](RELEASING.md).
+
 ## License
 
 MIT
