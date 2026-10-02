@@ -1,5 +1,5 @@
 {
-  "name": "eleventy-plugin-redirects",
+  "name": "@flyewi/eleventy-plugin-redirects",
   "version": "0.1.0",
   "description": "Eleventy plugin that generates Netlify _redirects, Apache .htaccess, and static HTML fallback pages from a single redirects config.",
   "main": "lib/redirects.js",
@@ -16,6 +16,15 @@
     "htaccess",
     "seo"
   ],
+  "author": "flyewi",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flyewi/eleventy-plugin-redirects.git"
+  },
+  "homepage": "https://github.com/flyewi/eleventy-plugin-redirects#readme",
+  "bugs": {
+    "url": "https://github.com/flyewi/eleventy-plugin-redirects/issues"
+  },
   "license": "MIT",
   "peerDependencies": {
     "@11ty/eleventy": "^2.0.0 || ^3.0.0"
@@ -28,5 +37,8 @@
   },
   "files": [
     "lib"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

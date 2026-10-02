@@ -11,11 +11,11 @@ URLs change. Instead of hand-editing `_redirects` (or forgetting to), keep redir
 ## Installation
 
 ```
-npm install eleventy-plugin-redirects
+npm install @flyewi/eleventy-plugin-redirects
 ```
 
 ```js
-const redirectsPlugin = require("eleventy-plugin-redirects");
+const redirectsPlugin = require("@flyewi/eleventy-plugin-redirects");
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(redirectsPlugin, {
