@@ -84,7 +84,7 @@ This is a static fallback for platforms without server-side redirect support —
 
 ## Contributing
 
-Issues and pull requests are welcome. For how releases are published, see [RELEASING.md](RELEASING.md).
+Issues and pull requests are welcome.
 
 ## License
 
